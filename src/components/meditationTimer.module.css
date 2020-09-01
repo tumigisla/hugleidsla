@@ -1,0 +1,19 @@
+.timer {
+    display: flex;
+    align-items: center;
+    margin: 0 auto 12px auto;
+  }
+  
+  .description {
+    flex: 1;
+    padding: 6px;
+  }
+
+  .timerminutes {
+    margin: 0 0 12px 0; 
+    padding: 0;
+  }
+  
+  .player {
+    margin: 0;
+  }
