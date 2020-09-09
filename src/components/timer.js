@@ -10,7 +10,6 @@ const Timer = () => {
 
   function toggle() {
     setIsActive(!isActive);
-    setSliderState(sliderState => ({ ...sliderState, disabled: true }));
   }
 
   function getMinutesStr() {
@@ -39,7 +38,7 @@ const Timer = () => {
         if (seconds === 0) {
           playSound();
         }
-        if ((seconds / 60) === sliderState.x) {
+        if ((seconds / 60) >= sliderState.x) {
           playSound();
           return setIsActive(_ => false);
         }
@@ -59,12 +58,12 @@ const Timer = () => {
           </div>
       </div>
       <Slider
+        disabled={isActive}
         axis="x"
         x={sliderState.x}
         xmin={1}
         xmax={20}
         onChange={({ x }) => {
-          console.log(x);
           setSliderState(sliderState => ({ ...sliderState, x }));
         }}
       />
