@@ -22,7 +22,8 @@
     "react-input-slider": "^6.0.0",
     "react-typography": "^0.16.19",
     "typography": "^0.16.19",
-    "typography-theme-twin-peaks": "^0.16.19"
+    "typography-theme-twin-peaks": "^0.16.19",
+    "use-sound": "^2.0.1"
   },
   "devDependencies": {
     "prettier": "2.1.0"
