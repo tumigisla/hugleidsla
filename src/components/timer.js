@@ -35,10 +35,10 @@ const Timer = () => {
     if (isActive) {
       interval = setInterval(() => {
         if (seconds === 0) {
-          playMeditationBellSound();
+          playMeditationBellSound({ forceSoundEnabled: true });
         }
         if ((seconds / 60) >= sliderState.x) {
-          playMeditationBellSound();
+          playMeditationBellSound({ forceSoundEnabled: true });
           return setIsActive(_ => false);
         }
         return setSeconds(seconds => seconds + 1);
