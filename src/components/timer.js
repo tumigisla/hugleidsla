@@ -1,12 +1,15 @@
 import React, { useState, useEffect } from "react"
 import Slider from 'react-input-slider';
 import styles from "./timer.module.css"
+import useSound from 'use-sound';
+import meditationBell from "../../static/139345096-large-tibetan-meditation-bell-.mp3"
 
 
 const Timer = () => {
   const [seconds, setSeconds] = useState(0);
   const [isActive, setIsActive] = useState(false);
   const [sliderState, setSliderState] = useState({x: 3});
+  const [playMeditationBellSound] = useSound(meditationBell);
 
   function toggle() {
     setIsActive(!isActive);
@@ -22,10 +25,6 @@ const Timer = () => {
     return secs < 10 ? "0" + secs : secs;
   }
 
-  function playSound() {
-    console.log("playing sound!");
-  }
-
   function reset() {
     setSeconds(0);
     setIsActive(false);
@@ -36,10 +35,10 @@ const Timer = () => {
     if (isActive) {
       interval = setInterval(() => {
         if (seconds === 0) {
-          playSound();
+          playMeditationBellSound();
         }
         if ((seconds / 60) >= sliderState.x) {
-          playSound();
+          playMeditationBellSound();
           return setIsActive(_ => false);
         }
         return setSeconds(seconds => seconds + 1);
@@ -48,7 +47,7 @@ const Timer = () => {
       clearInterval(interval);
     }
     return () => clearInterval(interval);
-  }, [isActive, seconds, sliderState.x]);
+  }, [isActive, seconds, sliderState.x, playMeditationBellSound]);
 
   return (
     <div className={styles.app}>
