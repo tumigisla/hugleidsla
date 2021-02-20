@@ -1,15 +1,14 @@
 import React, { useState, useEffect } from "react"
 import Slider from 'react-input-slider';
 import styles from "./timer.module.css"
-import useSound from 'use-sound';
 import meditationBell from "../../static/139345096-large-tibetan-meditation-bell-.mp3"
-
 
 const Timer = () => {
   const [seconds, setSeconds] = useState(0);
   const [isActive, setIsActive] = useState(false);
+  const [sessionStarted, setSessionStarted] = useState(false);
   const [sliderState, setSliderState] = useState({x: 3});
-  const [playMeditationBellSound] = useSound(meditationBell);
+  const [audio] = useState(new Audio(meditationBell));
 
   function toggle() {
     setIsActive(!isActive);
@@ -25,20 +24,17 @@ const Timer = () => {
     return secs < 10 ? "0" + secs : secs;
   }
 
-  function reset() {
-    setSeconds(0);
-    setIsActive(false);
-  }
-
   useEffect(() => {
+    audio.volume = 1;
     let interval = null;
     if (isActive) {
       interval = setInterval(() => {
         if (seconds === 0) {
-          playMeditationBellSound({ forceSoundEnabled: true });
+          audio.play();
+          setSessionStarted(true);
         }
         if ((seconds / 60) >= sliderState.x) {
-          playMeditationBellSound({ forceSoundEnabled: true });
+          audio.play();
           return setIsActive(_ => false);
         }
         return setSeconds(seconds => seconds + 1);
@@ -47,7 +43,7 @@ const Timer = () => {
       clearInterval(interval);
     }
     return () => clearInterval(interval);
-  }, [isActive, seconds, sliderState.x, playMeditationBellSound]);
+  }, [isActive, seconds, sliderState.x, sessionStarted, audio]);
 
   return (
     <div className={styles.app}>
@@ -57,7 +53,7 @@ const Timer = () => {
           </div>
       </div>
       <Slider
-        disabled={isActive}
+        disabled={sessionStarted}
         axis="x"
         x={sliderState.x}
         xmin={1}
@@ -72,9 +68,6 @@ const Timer = () => {
       <div className={styles.row}>
         <button className={styles.button} onClick={toggle}>
           {isActive ? 'Pause' : 'Start'}
-        </button>
-        <button className={styles.button} onClick={reset}>
-          Reset
         </button>
       </div>
     </div>
