@@ -10,7 +10,7 @@ const Timer = () => {
   const [sliderState, setSliderState] = useState({x: 3});
   // Server side rendering and accessing DOM elements do not work together
   // https://github.com/gatsbyjs/gatsby/issues/9214
-  const [audioState] = useState({audio: typeof audio !== undefined ? new Audio(meditationBell) : {}});
+  const [audioState] = useState({audio: typeof window !== `undefined` ? new Audio(meditationBell) : {}});
 
   function toggle() {
     setIsActive(!isActive);
@@ -31,13 +31,13 @@ const Timer = () => {
     if (isActive) {
       interval = setInterval(() => {
         if (seconds === 0) {
-          if (typeof audio !== undefined) {
+          if (typeof window !== `undefined`) {
             audioState.audio.play(); 
           }
           setSessionStarted(true);
         }
         if ((seconds / 60) >= sliderState.x) {
-          if (typeof audio !== undefined) {
+          if (typeof window !== `undefined`) {
             audioState.audio.play(); 
           }
           return setIsActive(_ => false);
