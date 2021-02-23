@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react"
+import React, { useState, useEffect, useRef } from "react"
 import Slider from 'react-input-slider';
 import styles from "./timer.module.css"
 import meditationBell from "../../static/139345096-large-tibetan-meditation-bell-.mp3"
@@ -8,22 +8,26 @@ const Timer = () => {
   const [isActive, setIsActive] = useState(false);
   const [sessionStarted, setSessionStarted] = useState(false);
   const [sliderState, setSliderState] = useState({x: 3});
-  // Server side rendering and accessing DOM elements do not work together
-  // https://github.com/gatsbyjs/gatsby/issues/9214
-  const [audioState] = useState({audio: typeof window !== `undefined` ? new Audio(meditationBell) : {}});
+  const audioRef = useRef()
 
-  function toggle() {
+  const toggle = () => {
     setIsActive(!isActive);
   }
 
-  function getMinutesStr() {
+  const getMinutesStr = () => {
     const mins = Math.floor(seconds / 60);
     return mins < 10 ? "0" + mins : mins;
   }
 
-  function getSecondsStr() {
+  const getSecondsStr = () => {
     const secs = seconds % 60;
     return secs < 10 ? "0" + secs : secs;
+  }
+
+  const playAudio = () => {
+    if(audioRef.current){
+      audioRef.current.play();
+    }
   }
 
   useEffect(() => {
@@ -31,15 +35,11 @@ const Timer = () => {
     if (isActive) {
       interval = setInterval(() => {
         if (seconds === 0) {
-          if (typeof window !== `undefined`) {
-            audioState.audio.play(); 
-          }
+          playAudio(meditationBell);
           setSessionStarted(true);
         }
         if ((seconds / 60) >= sliderState.x) {
-          if (typeof window !== `undefined`) {
-            audioState.audio.play(); 
-          }
+          playAudio(meditationBell);
           return setIsActive(_ => false);
         }
         return setSeconds(seconds => seconds + 1);
@@ -48,7 +48,7 @@ const Timer = () => {
       clearInterval(interval);
     }
     return () => clearInterval(interval);
-  }, [isActive, seconds, sliderState.x, sessionStarted, audioState]);
+  }, [isActive, seconds, sliderState.x, sessionStarted]);
 
   return (
     <div className={styles.app}>
@@ -72,8 +72,12 @@ const Timer = () => {
       </div>
       <div className={styles.row}>
         <button className={styles.button} onClick={toggle}>
-          {isActive ? 'Pause' : 'Start'}
+          {isActive ? 'Pása' : 'Byrja'}
         </button>
+        <audio controls ref={audioRef}>
+          <track default kind='captions'></track>
+          <source src={meditationBell} type='audio/mpeg' />
+        </audio>
       </div>
     </div>
   );
