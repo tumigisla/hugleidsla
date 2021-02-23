@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react"
+import React, { useState, useEffect } from "react"
 import Slider from 'react-input-slider';
 import styles from "./timer.module.css"
 import meditationBell from "../../static/139345096-large-tibetan-meditation-bell-.mp3"
@@ -8,7 +8,6 @@ const Timer = () => {
   const [isActive, setIsActive] = useState(false);
   const [sessionStarted, setSessionStarted] = useState(false);
   const [sliderState, setSliderState] = useState({x: 3});
-  const audioRef = useRef()
 
   const toggle = () => {
     setIsActive(!isActive);
@@ -25,10 +24,8 @@ const Timer = () => {
   }
 
   const playAudio = () => {
-    if(audioRef.current){
-      audioRef.current.load();
-      audioRef.current.play();
-    }
+    document.getElementById('meditationAudio').muted = false;
+    document.getElementById('meditationAudio').play();
   }
 
   useEffect(() => {
@@ -75,7 +72,7 @@ const Timer = () => {
         <button className={styles.button} onClick={toggle}>
           {isActive ? 'Pása' : 'Byrja'}
         </button>
-        <audio controls ref={audioRef}>
+        <audio id='meditationAudio' autoPlay muted>
           <track default kind='captions'></track>
           <source src={meditationBell} type='audio/mpeg' />
         </audio>
