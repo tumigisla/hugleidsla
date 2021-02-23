@@ -26,6 +26,7 @@ const Timer = () => {
 
   const playAudio = () => {
     if(audioRef.current){
+      audioRef.current.load();
       audioRef.current.play();
     }
   }
