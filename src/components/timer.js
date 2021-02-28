@@ -55,16 +55,18 @@ const Timer = () => {
             <h2 className={styles.timerminutes}>{sliderState.x} mín</h2>
           </div>
       </div>
-      <Slider
-        disabled={sessionStarted}
-        axis="x"
-        x={sliderState.x}
-        xmin={1}
-        xmax={20}
-        onChange={({ x }) => {
-          setSliderState(sliderState => ({ ...sliderState, x }));
-        }}
-      />
+      <div className={styles.slider}>
+        <Slider
+          disabled={sessionStarted}
+          axis="x"
+          x={sliderState.x}
+          xmin={1}
+          xmax={30}
+          onChange={({ x }) => {
+            setSliderState(sliderState => ({ ...sliderState, x }));
+          }}
+        />
+      </div>
       <div className={styles.time}>
         {getMinutesStr()}:{getSecondsStr()}
       </div>
