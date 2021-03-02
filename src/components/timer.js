@@ -7,7 +7,7 @@ const Timer = () => {
   const [seconds, setSeconds] = useState(0);
   const [isActive, setIsActive] = useState(false);
   const [sessionStarted, setSessionStarted] = useState(false);
-  const [sliderState, setSliderState] = useState({x: 3});
+  const [sliderState, setSliderState] = useState({x:10});
 
   const toggle = () => {
     setIsActive(!isActive);
