@@ -65,6 +65,14 @@ const Timer = () => {
           onChange={({ x }) => {
             setSliderState(sliderState => ({ ...sliderState, x }));
           }}
+          styles={{
+            active: {
+              backgroundColor: '#43a49d'
+            },
+            disabled: {
+              opacity: 0.5
+            }
+          }}
         />
       </div>
       <div className={styles.time}>
